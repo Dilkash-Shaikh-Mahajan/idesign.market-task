@@ -8,13 +8,22 @@ const AddTutorial = () => {
 	const [email, setEmail] = useState('');
 	const [mobile, setMobile] = useState('');
 	const [password, setPassword] = useState('');
+	const [errorMsg, setErrorMsg] = useState('');
 	const dispatch = useDispatch();
 	const handleSumbit = () => {
-		dispatch(getData({ fullName, email, mobile, password }));
-		history.push('/card');
+		if (!fullName || !email || !password || !mobile) {
+			return setErrorMsg('All fields are required');
+		} else {
+			dispatch(getData({ fullName, email, mobile, password }));
+			setErrorMsg('');
+			history.push('/card');
+		}
 	};
 	return (
 		<div className='submit-form'>
+			<div style={{ color: 'red', fontSize: '20px' }}>
+				{errorMsg && errorMsg}
+			</div>
 			<div>
 				<div className='form-group'>
 					<label htmlFor='fullName'>Full Name</label>
